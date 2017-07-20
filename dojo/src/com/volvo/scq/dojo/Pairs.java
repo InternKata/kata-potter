@@ -1,9 +1,26 @@
 package com.volvo.scq.dojo;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Pairs implements Group {
+    Books books;
+
+    public Pairs(Books books) {
+        this.books = books;
+
+    }
+
+    private int pairs = 0;
+
+    public int getPairs() {
+        return pairs;
+    }
+
+    public void setPairs(int pairs) {
+        this.pairs = pairs;
+    }
 
     public MinMax findMinMax(Map<Integer, Integer> booksMap) {
         MinMax val = new MinMax();
@@ -17,11 +34,26 @@ public class Pairs implements Group {
 
         for (int i = 1; i < 6; i++) {
             if (booksMap.get(i) < val.getMin(0) && booksMap.get(i) > 0 && i != val.getKeyMax()) {
-                //val.setMin(Arrays.asList(val.getMin(i)));
+                val.setMin(0, booksMap.get(i));
                 val.setKeyMin(i);
             }
         }
         return val;
     }
 
+    public int getPairs(Map<Integer, Integer> booksMap) {
+        Map<Integer, Integer> valMap = new HashMap<Integer, Integer>(booksMap);
+
+        int pairs = 0;
+
+        MinMax minMax = findMinMax(valMap);
+        while (minMax.getMax() > 0 && books.findDifferentBooks() > 1) {
+            valMap.replace(minMax.getKeyMax(), minMax.getMax() - 1);
+            valMap.replace(minMax.getKeyMin(), minMax.getMin(0) - 1);
+            minMax = findMinMax(valMap);
+            pairs++;
+        }
+
+        return pairs;
+    }
 }

@@ -5,9 +5,16 @@ import java.util.List;
 
 public class MinMax {
     private List<Integer> min = new ArrayList<Integer>();
+
     private int max = 0;
     private int keyMin = 0;
     private int keyMax = 0;
+
+    public MinMax() {
+        for (int i = 0; i < 5; i++) {
+            min.add(Integer.MAX_VALUE);
+        }
+    }
 
     public List<Integer> getMin() {
         return min;
@@ -17,7 +24,7 @@ public class MinMax {
         return max;
     }
 
-    public void setMin(int value, int index) {
+    public void setMin(int index, int value) {
         this.min.set(index, value);
     }
 
@@ -41,8 +48,8 @@ public class MinMax {
         this.keyMax = keyMax;
     }
 
-    public int getMin(int val){
-        if (min.isEmpty()){
+    public int getMin(int val) {
+        if (min.isEmpty()) {
             return Integer.MAX_VALUE;
         }
         return min.get(val);
