@@ -35,7 +35,7 @@ public class PairsTest {
 
         MinMax minMax = pairs.findMinMax(books.getBooksMap());
         assertEquals(1, minMax.getMin(0));
-        assertEquals(3, minMax.getKeyMin());
+        assertEquals(3, minMax.getKeyMin(0));
 
         assertEquals(2, minMax.getMax());
         assertEquals(1, minMax.getKeyMax());
@@ -45,7 +45,7 @@ public class PairsTest {
         book2.addBooksToMap();
         MinMax minMax2 = pairs.findMinMax(book2.getBooksMap());
         assertEquals(2, minMax2.getMin(0));
-        assertEquals(2, minMax2.getKeyMin());
+        assertEquals(2, minMax2.getKeyMin(0));
 
         assertEquals(2, minMax2.getMax());
         assertEquals(1, minMax2.getKeyMax());
