@@ -77,4 +77,13 @@ public class CalculationTest {
         
     }
     
+    @Test
+    public void testPairs() {
+        calculation.addBook(Arrays.asList(2, 2, 1, 3, 5));
+        calculation.addBooksToMap();
+        
+        assertEquals(3, calculation.getPairs(calculation.getBooksMap()));
+        assertEquals(2, calculation.getBooksMap().get(2).intValue());
+    }
+    
 }

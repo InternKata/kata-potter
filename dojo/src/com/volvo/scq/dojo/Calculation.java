@@ -91,13 +91,16 @@ public class Calculation {
     }
 
     public int getPairs(Map<Integer, Integer> booksMap) {
-        Map<Integer, Integer> valMap = booksMap;
+        Map<Integer, Integer> valMap = new HashMap<Integer, Integer>(booksMap);
 
         int pairs = 0;
 
         MinMax minMax = this.findMinMax(valMap);
         while (minMax.getMax() > 0 && findDifferentBooks() > 1) {
-
+            valMap.replace(minMax.getKeyMax(), minMax.getMax() - 1);
+            valMap.replace(minMax.getKeyMin(), minMax.getMin() - 1);
+            minMax = this.findMinMax(valMap);
+            pairs++;
         }
 
         return pairs;
