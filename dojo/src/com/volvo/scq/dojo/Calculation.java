@@ -90,20 +90,28 @@ public class Calculation {
     }
 
     public int getPairs(Map<Integer, Integer> booksMap) {
-        int pairs = 0;
-        int max = 0;
-        int min = Integer.MAX_VALUE;
-        for (int i = 1; i < 6; i++) {
-            if (booksMap.get(i) > max) {
-                max = booksMap.get(i);
-            }
-            if (booksMap.get(i) < min) {
-                min = booksMap.get(i);
-            }
-        }
+        Map<Integer, Integer> valMap = booksMap; 
         
+        int pairs = 0;
+        
+        MinMax minMax = this.findMinMax(valMap);
+        while (minMax.getMax() > 0 && findDifferentBooks() > 1){
+            
+        }
         
         return pairs;
     }
-
+    
+    public MinMax findMinMax(Map<Integer, Integer> booksMap){
+        MinMax val = new MinMax();
+        for (int i = 1; i < 6; i++) {
+            if (booksMap.get(i) > val.getMax()) {
+                val.setMax(booksMap.get(i));
+            }
+            if (booksMap.get(i) < val.getMin() && booksMap.get(i) > 0) {
+                val.setMin(booksMap.get(i));
+            }
+        }
+        return val;
+    }
 }
