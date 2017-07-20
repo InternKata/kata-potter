@@ -1,13 +1,15 @@
 package com.volvo.scq.dojo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MinMax {
-    private List<Integer> min = new ArrayList<Integer>();
 
+    private List<Integer> min = new ArrayList<Integer>();
     private int max = 0;
-    private int keyMin = 0;
+    private List<Integer> keyMin = new ArrayList<Integer>();
     private int keyMax = 0;
 
     public MinMax() {
@@ -32,8 +34,8 @@ public class MinMax {
         this.max = max;
     }
 
-    public int getKeyMin() {
-        return keyMin;
+    public int getKeyMin(int index) {
+        return keyMin.get(index);
     }
 
     public void setKeyMin(int keyMin) {
