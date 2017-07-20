@@ -78,5 +78,21 @@ public class Calculation {
 
         return differentBooks;
     }
+    
+    public float getBestPrice() {
+        
+        float price = 0;
+        int differentBooks = findDifferentBooks();
+        
+        price = basket.size() * 8;
+        
+        
+        return price;
+    }
+    
+    public int getPairs(Map<Integer, Integer> booksMap) {
+        
+        return 0;
+    }
 
 }
