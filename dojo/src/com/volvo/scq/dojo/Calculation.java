@@ -13,15 +13,13 @@ public class Calculation {
     final static float discountValues[] = { 1, 0.95f, 0.90f, 0.80f, 0.75f };
 
     private List<Integer> basket = new ArrayList<Integer>();
-    
+
     private Map<Integer, Integer> booksMap = new HashMap<Integer, Integer>();
-    
-    
 
     public Calculation() {
-       for(int i = 0 ; i < 5 ; i++) {
-           booksMap.put(i, 0);
-       }
+        for (int i = 1; i < 6; i++) {
+            booksMap.put(i, 0);
+        }
     }
 
     public int basketSize() {
@@ -57,19 +55,18 @@ public class Calculation {
         default:
             return 0;
         }
-        
-    }
-    
-    // numberBook > count
-    private void differentBooks() {
-       Collections.sort(basket);
-       
-       for(int book : basket) {
-          /* switch() {
-           
-           }*/
-       }
-       
     }
 
+    public void differentBooks() {
+        Collections.sort(basket);
+        for (int book : basket) {
+            booksMap.replace(book, booksMap.get(book) + 1);
+        }
+    }
+
+    public Map<Integer, Integer> getBooksMap() {
+        return booksMap;
+    }
+    
+    
 }

@@ -18,11 +18,8 @@ public class CalculationTest {
     }
 
     @Test
-    public void testBasics() {
-
-       
+    public void testBasics() {  
         assertEquals(1, calculation.basketSize());
-
     }
 
     @Test
@@ -37,4 +34,13 @@ public class CalculationTest {
         calculation.addBook(Arrays.asList(2));
         assertEquals(30, calculation.calculatePrice(), 0.0005);
     }
+    
+    @Test
+    public void testMap() {
+        calculation.addBook(Arrays.asList(2, 2, 1));
+        calculation.differentBooks();
+        assertEquals(2, calculation.getBooksMap().get(1).intValue());
+        assertEquals(2, calculation.getBooksMap().get(2).intValue());
+    }
+    
 }
