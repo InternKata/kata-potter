@@ -1,7 +1,10 @@
 package com.volvo.scq.dojo;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Calculation {
 
@@ -10,6 +13,16 @@ public class Calculation {
     final static float discountValues[] = { 1, 0.95f, 0.90f, 0.80f, 0.75f };
 
     private List<Integer> basket = new ArrayList<Integer>();
+    
+    private Map<Integer, Integer> booksMap = new HashMap<Integer, Integer>();
+    
+    
+
+    public Calculation() {
+       for(int i = 0 ; i < 5 ; i++) {
+           booksMap.put(i, 0);
+       }
+    }
 
     public int basketSize() {
         return basket.size();
@@ -45,6 +58,18 @@ public class Calculation {
             return 0;
         }
         
+    }
+    
+    // numberBook > count
+    private void differentBooks() {
+       Collections.sort(basket);
+       
+       for(int book : basket) {
+          /* switch() {
+           
+           }*/
+       }
+       
     }
 
 }

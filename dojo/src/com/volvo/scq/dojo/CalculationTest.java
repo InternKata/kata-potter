@@ -27,10 +27,14 @@ public class CalculationTest {
 
     @Test
     public void testCalculating() {
-       
-      
         assertEquals(8, calculation.calculatePrice(), 0.0005);
         calculation.addBook(Arrays.asList(2));
         assertEquals(15.2, calculation.calculatePrice(), 0.0005);
+        calculation.addBook(Arrays.asList(2));
+        assertEquals(21.6, calculation.calculatePrice(), 0.0005);
+        calculation.addBook(Arrays.asList(2));
+        assertEquals(25.6, calculation.calculatePrice(), 0.0005);
+        calculation.addBook(Arrays.asList(2));
+        assertEquals(30, calculation.calculatePrice(), 0.0005);
     }
 }
