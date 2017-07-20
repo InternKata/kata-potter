@@ -78,21 +78,32 @@ public class Calculation {
 
         return differentBooks;
     }
-    
+
     public float getBestPrice() {
-        
+
         float price = 0;
         int differentBooks = findDifferentBooks();
-        
+
         price = basket.size() * 8;
-        
-        
+
         return price;
     }
-    
+
     public int getPairs(Map<Integer, Integer> booksMap) {
+        int pairs = 0;
+        int max = 0;
+        int min = Integer.MAX_VALUE;
+        for (int i = 1; i < 6; i++) {
+            if (booksMap.get(i) > max) {
+                max = booksMap.get(i);
+            }
+            if (booksMap.get(i) < min) {
+                min = booksMap.get(i);
+            }
+        }
         
-        return 0;
+        
+        return pairs;
     }
 
 }
