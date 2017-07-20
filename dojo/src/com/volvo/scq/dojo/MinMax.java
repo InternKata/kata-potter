@@ -50,5 +50,9 @@ public class MinMax {
     public void setKeyMax(int keyMax) {
         this.keyMax = keyMax;
     }
+    
+//    public void sort(){
+//        minsAndKeys.sort((a,b) ->(b.min - a.min));
+//    }
 
 }
