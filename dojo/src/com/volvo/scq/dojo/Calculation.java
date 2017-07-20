@@ -29,10 +29,22 @@ public class Calculation {
             return calculateDiscount();
         }
     }
-    
+
     public float calculateDiscount() {
+
+        switch (basketSize()) {
+        case 2:
+            return (PRICE * 2) * discountValues[1];
+        case 3:
+            return (PRICE * 3) * discountValues[2];
+        case 4:
+            return (PRICE * 4) * discountValues[3];
+        case 5:
+            return (PRICE * 5) * discountValues[4];
+        default:
+            return 0;
+        }
         
-        return 0;
     }
 
 }

@@ -14,13 +14,13 @@ public class CalculationTest {
     @Before
     public void setUp() {
         calculation = new Calculation();
+        calculation.addBook(Arrays.asList(1));
     }
 
     @Test
     public void testBasics() {
 
-        assertEquals(0, calculation.basketSize());
-        calculation.addBook(Arrays.asList(1));
+       
         assertEquals(1, calculation.basketSize());
 
     }
@@ -28,7 +28,9 @@ public class CalculationTest {
     @Test
     public void testCalculating() {
        
-        
+      
         assertEquals(8, calculation.calculatePrice(), 0.0005);
+        calculation.addBook(Arrays.asList(2));
+        assertEquals(15.2, calculation.calculatePrice(), 0.0005);
     }
 }
