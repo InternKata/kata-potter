@@ -58,7 +58,8 @@ public class CalculationTest {
     public void testMinMax(){
         calculation.addBook(Arrays.asList(2, 2, 1, 3, 5));
         calculation.addBooksToMap();
-        MinMax minMax = calculation.findMinMax(calculation.getBooksMap());
+        Pairs p = new Pairs();
+        MinMax minMax = p.findMinMax(calculation.getBooksMap());
         assertEquals(1, minMax.getMin());
         assertEquals(3, minMax.getKeyMin());
         
@@ -68,7 +69,7 @@ public class CalculationTest {
         Calculation calc2 = new Calculation();
         calc2.addBook(Arrays.asList(1, 1, 2, 2));
         calc2.addBooksToMap();
-        MinMax minMax2 = calc2.findMinMax(calc2.getBooksMap());
+        MinMax minMax2 = p.findMinMax(calc2.getBooksMap());
         assertEquals(2, minMax2.getMin());
         assertEquals(2, minMax2.getKeyMin());
         

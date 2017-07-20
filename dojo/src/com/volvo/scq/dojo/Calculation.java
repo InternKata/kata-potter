@@ -94,35 +94,48 @@ public class Calculation {
         Map<Integer, Integer> valMap = new HashMap<Integer, Integer>(booksMap);
 
         int pairs = 0;
+        Pairs pair = new Pairs();
 
-        MinMax minMax = this.findMinMax(valMap);
+        MinMax minMax = pair.findMinMax(valMap);
         while (minMax.getMax() > 0 && findDifferentBooks() > 1) {
             valMap.replace(minMax.getKeyMax(), minMax.getMax() - 1);
-            valMap.replace(minMax.getKeyMin(), minMax.getMin() - 1);
-            minMax = this.findMinMax(valMap);
+            valMap.replace(minMax.getKeyMin(), minMax.getMin().get(0) - 1);
+            minMax = pair.findMinMax(valMap);
             pairs++;
         }
 
         return pairs;
     }
+    
+//    public int getTriplets(Map<Integer, Integer> booksMap) {
+//        Map<Integer, Integer> valMap = new HashMap<Integer, Integer>(booksMap);
+//        int triplets = 0;
+//        MinMax minMax = this.findMinMax(valMap);
+//        while (minMax.getMax() > 0 && findDifferentBooks() > 2) {
+//            
+//        }
+//        
+//        return triplets;
+//    }
 
-    public MinMax findMinMax(Map<Integer, Integer> booksMap) {
-        MinMax val = new MinMax();
-        
-        for (int i = 1; i < 6; i++) {
-            if (booksMap.get(i) > val.getMax()) {
-                val.setMax(booksMap.get(i));
-                val.setKeyMax(i);
-            }
-        }
-
-        for (int i = 1; i < 6; i++) {
-            if (booksMap.get(i) < val.getMin() && booksMap.get(i) > 0 && i != val.getKeyMax()) {
-
-                val.setMin(booksMap.get(i));
-                val.setKeyMin(i);
-            }
-        }
-        return val;
-    }
+//    public MinMax findMinMax(Map<Integer, Integer> booksMap) {
+//        MinMax val = new MinMax();
+//        
+//        for (int i = 1; i < 6; i++) {
+//            if (booksMap.get(i) > val.getMax()) {
+//                val.setMax(booksMap.get(i));
+//                val.setKeyMax(i);
+//            }
+//        }
+//
+//        for (int i = 1; i < 6; i++) {
+//            if (booksMap.get(i) < val.getMin() && booksMap.get(i) > 0 && i != val.getKeyMax()) {
+//                val.setMin(booksMap.get(i));
+//                val.setKeyMin(i);
+//            }
+//        }
+//        return val;
+//    }
+    
+    
 }
