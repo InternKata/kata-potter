@@ -17,8 +17,8 @@ public class MinMax {
         return max;
     }
 
-    public void setMin(List<Integer> min) {
-        this.min = min;
+    public void setMin(int value, int index) {
+        this.min.set(index, value);
     }
 
     public void setMax(int max) {
@@ -41,4 +41,10 @@ public class MinMax {
         this.keyMax = keyMax;
     }
 
+    public int getMin(int val){
+        if (min.isEmpty()){
+            return Integer.MAX_VALUE;
+        }
+        return min.get(val);
+    }
 }

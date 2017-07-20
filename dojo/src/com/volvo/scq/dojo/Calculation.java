@@ -99,7 +99,7 @@ public class Calculation {
         MinMax minMax = pair.findMinMax(valMap);
         while (minMax.getMax() > 0 && findDifferentBooks() > 1) {
             valMap.replace(minMax.getKeyMax(), minMax.getMax() - 1);
-            valMap.replace(minMax.getKeyMin(), minMax.getMin().get(0) - 1);
+            valMap.replace(minMax.getKeyMin(), minMax.getMin(0) - 1);
             minMax = pair.findMinMax(valMap);
             pairs++;
         }

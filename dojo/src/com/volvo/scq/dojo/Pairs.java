@@ -16,8 +16,8 @@ public class Pairs implements Group {
         }
 
         for (int i = 1; i < 6; i++) {
-            if (booksMap.get(i) < val.getMin().get(0) && booksMap.get(i) > 0 && i != val.getKeyMax()) {
-                val.setMin(Arrays.asList(val.getMin().get(0)));
+            if (booksMap.get(i) < val.getMin(0) && booksMap.get(i) > 0 && i != val.getKeyMax()) {
+                //val.setMin(Arrays.asList(val.getMin(i)));
                 val.setKeyMin(i);
             }
         }
