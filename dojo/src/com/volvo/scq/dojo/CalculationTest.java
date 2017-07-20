@@ -43,4 +43,13 @@ public class CalculationTest {
         assertEquals(2, calculation.getBooksMap().get(2).intValue());
     }
     
+    @Test
+    public void testDiscounts(){
+        
+        calculation.addBook(Arrays.asList(2));
+        calculation.differentBooks();
+        assertEquals(2, calculation.findDifferentBooks());
+        
+    }
+    
 }

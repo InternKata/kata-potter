@@ -67,6 +67,16 @@ public class Calculation {
     public Map<Integer, Integer> getBooksMap() {
         return booksMap;
     }
-    
-    
+
+    public int findDifferentBooks() {
+        int differentBooks = 0;
+        for (int i = 1; i < 6; i++) {
+            if (booksMap.get(i) > 0)
+                differentBooks++;
+
+        }
+
+        return differentBooks;
+    }
+
 }
