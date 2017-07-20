@@ -10,11 +10,13 @@ import org.junit.Test;
 public class CalculationTest {
 
     private Calculation calculation;
+    
 
     @Before
     public void setUp() {
         calculation = new Calculation();
         calculation.addBook(Arrays.asList(1));
+        
     }
 
     @Test
@@ -38,7 +40,7 @@ public class CalculationTest {
     @Test
     public void testMap() {
         calculation.addBook(Arrays.asList(2, 2, 1));
-        calculation.differentBooks();
+        calculation.addBooksToMap();
         assertEquals(2, calculation.getBooksMap().get(1).intValue());
         assertEquals(2, calculation.getBooksMap().get(2).intValue());
     }
@@ -47,8 +49,31 @@ public class CalculationTest {
     public void testDiscounts(){
         
         calculation.addBook(Arrays.asList(2));
-        calculation.differentBooks();
+        calculation.addBooksToMap();
         assertEquals(2, calculation.findDifferentBooks());
+        
+    }
+    
+    @Test
+    public void testMinMax(){
+        calculation.addBook(Arrays.asList(2, 2, 1, 3, 5));
+        calculation.addBooksToMap();
+        MinMax minMax = calculation.findMinMax(calculation.getBooksMap());
+        assertEquals(1, minMax.getMin());
+        assertEquals(3, minMax.getKeyMin());
+        
+        assertEquals(2 ,minMax.getMax());
+        assertEquals(1, minMax.getKeyMax());
+        
+        Calculation calc2 = new Calculation();
+        calc2.addBook(Arrays.asList(1, 1, 2, 2));
+        calc2.addBooksToMap();
+        MinMax minMax2 = calc2.findMinMax(calc2.getBooksMap());
+        assertEquals(2, minMax2.getMin());
+        assertEquals(2, minMax2.getKeyMin());
+        
+        assertEquals(2,minMax2.getMax());
+        assertEquals(1, minMax2.getKeyMax());
         
     }
     

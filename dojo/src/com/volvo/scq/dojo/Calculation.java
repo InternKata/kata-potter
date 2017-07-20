@@ -28,6 +28,7 @@ public class Calculation {
 
     public void addBook(List<Integer> book) {
         basket.addAll(book);
+
     }
 
     public float calculatePrice() {
@@ -57,7 +58,7 @@ public class Calculation {
         }
     }
 
-    public void differentBooks() {
+    public void addBooksToMap() {
         Collections.sort(basket);
         for (int book : basket) {
             booksMap.replace(book, booksMap.get(book) + 1);
@@ -90,26 +91,33 @@ public class Calculation {
     }
 
     public int getPairs(Map<Integer, Integer> booksMap) {
-        Map<Integer, Integer> valMap = booksMap; 
-        
+        Map<Integer, Integer> valMap = booksMap;
+
         int pairs = 0;
-        
+
         MinMax minMax = this.findMinMax(valMap);
-        while (minMax.getMax() > 0 && findDifferentBooks() > 1){
-            
+        while (minMax.getMax() > 0 && findDifferentBooks() > 1) {
+
         }
-        
+
         return pairs;
     }
-    
-    public MinMax findMinMax(Map<Integer, Integer> booksMap){
+
+    public MinMax findMinMax(Map<Integer, Integer> booksMap) {
         MinMax val = new MinMax();
+        
         for (int i = 1; i < 6; i++) {
             if (booksMap.get(i) > val.getMax()) {
                 val.setMax(booksMap.get(i));
+                val.setKeyMax(i);
             }
-            if (booksMap.get(i) < val.getMin() && booksMap.get(i) > 0) {
+        }
+
+        for (int i = 1; i < 6; i++) {
+            if (booksMap.get(i) < val.getMin() && booksMap.get(i) > 0 && i != val.getKeyMax()) {
+
                 val.setMin(booksMap.get(i));
+                val.setKeyMin(i);
             }
         }
         return val;
