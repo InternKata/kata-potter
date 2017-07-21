@@ -1,16 +1,24 @@
 package com.volvo.scq.dojo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Calculation {
 
     final static int PRICE = 8;
     private Books books;
-    private Group pairs;
+    private Group pairs, triplets, quartets, quintets;
 
     final static float discountValues[] = { 1, 0.95f, 0.90f, 0.80f, 0.75f };
 
     public Calculation() {
         books = new Books();
         pairs = new Pairs(books);
+        triplets = new Triplets(books);
+        quartets = new Quartets(books);
+        quintets = new Quintets(books);
+
+        
 
     }
 
@@ -30,25 +38,54 @@ public class Calculation {
         case 1:
             return PRICE;
         default:
-            return calculateDiscount();
+            return getPrice();
         }
     }
 
-    public float calculateDiscount() {
-
-        switch (books.basketSize()) {
+//    public float calculateDiscount() {
+//
+//        switch (books.basketSize()) {
+//        case 2:
+//            return (PRICE * 2) * discountValues[1];
+//        case 3:
+//            return (PRICE * 3) * discountValues[2];
+//        case 4:
+//            return (PRICE * 4) * discountValues[3];
+//        case 5:
+//            return (PRICE * 5) * discountValues[4];
+//        default:
+//            return 0;
+//        }
+//    }
+//    
+    public float getPrice(){
+        
+        Map<Integer, Integer> booksMap = new HashMap<Integer, Integer>(books.getBooksMap());
+        switch(books.findDifferentBooks(booksMap)){
         case 2:
-            return (PRICE * 2) * discountValues[1];
-        case 3:
-            return (PRICE * 3) * discountValues[2];
-        case 4:
-            return (PRICE * 4) * discountValues[3];
-        case 5:
-            return (PRICE * 5) * discountValues[4];
-        default:
-            return 0;
+            calculatePairs(booksMap);
+        
         }
+        
+        
+        return 0;
     }
+    
+    public float calculatePairs(Map<Integer, Integer> booksMap){
+        float price;
+        Map<Integer, Integer> booksMap2 = new HashMap<Integer, Integer>(books.getBooksMap());
+        
+        int basketSize = books.basketSize();
+        int pairs = this.pairs.getGroups(booksMap);
+        basketSize -= pairs*2;
+        price = pairs*2*PRICE*discountValues[1] + basketSize*PRICE;
+        
+        
+
+        return price;
+    }
+    
+    
 
     public float getBestPrice() {
 
@@ -60,34 +97,6 @@ public class Calculation {
         return price;
     }
 
-    // public int getTriplets(Map<Integer, Integer> booksMap) {
-    // Map<Integer, Integer> valMap = new HashMap<Integer, Integer>(booksMap);
-    // int triplets = 0;
-    // MinMax minMax = this.findMinMax(valMap);
-    // while (minMax.getMax() > 0 && findDifferentBooks() > 2) {
-    //
-    // }
-    //
-    // return triplets;
-    // }
-
-    // public MinMax findMinMax(Map<Integer, Integer> booksMap) {
-    // MinMax val = new MinMax();
-    //
-    // for (int i = 1; i < 6; i++) {
-    // if (booksMap.get(i) > val.getMax()) {
-    // val.setMax(booksMap.get(i));
-    // val.setKeyMax(i);
-    // }
-    // }
-    //
-    // for (int i = 1; i < 6; i++) {
-    // if (booksMap.get(i) < val.getMin() && booksMap.get(i) > 0 && i != val.getKeyMax()) {
-    // val.setMin(booksMap.get(i));
-    // val.setKeyMin(i);
-    // }
-    // }
-    // return val;
-    // }
+   
 
 }
