@@ -32,7 +32,7 @@ public class Triplets implements Group {
         return val;
     }
     
-    public int getTriplets(Map<Integer, Integer> booksMap){
+    public int getGroups(Map<Integer, Integer> booksMap){
         
         Map<Integer, Integer> valMap = new HashMap<Integer, Integer>(booksMap);
 

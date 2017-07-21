@@ -5,5 +5,6 @@ import java.util.Map;
 public interface Group {
     
      MinMax findMinMax(Map<Integer, Integer> booksMap);
+     int getGroups(Map<Integer, Integer> booksMap);
 
 }

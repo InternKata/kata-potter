@@ -40,7 +40,7 @@ public class Pairs implements Group {
         return val;
     }
 
-    public int getPairs(Map<Integer, Integer> booksMap) {
+    public int getGroups(Map<Integer, Integer> booksMap) {
         Map<Integer, Integer> valMap = new HashMap<Integer, Integer>(booksMap);
 
         int pairs = 0;
