@@ -52,7 +52,7 @@ public class Books {
     public int findDifferentBooks(Map<Integer, Integer> booksMap) {
         int differentBooks = 0;
         for (int i = 1; i < 6; i++) {
-            if (booksMap.get(i) > 0 && booksMap.get(i) <= 5)
+            if (booksMap.get(i) > 0)
                 differentBooks++;
 
         }

@@ -128,7 +128,7 @@ public class Calculation {
 
     public float getBestPrice() {
         float price = Integer.MAX_VALUE;
-        int level = books.findDifferentBooks();
+        int level = books.findDifferentBooks(books.getBooksMap());
         float result = 0f;
         if (level == 0) {
             return 0;
