@@ -52,7 +52,7 @@ public class MinMax {
     }
     
     public void sort(){
-        minsAndKeys.sort((a,b) ->(a.min - b.min));
+        minsAndKeys.sort((a,b) ->(b.min - a.min)); 
     }
 
 }

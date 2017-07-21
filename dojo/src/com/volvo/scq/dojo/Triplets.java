@@ -1,11 +1,12 @@
 package com.volvo.scq.dojo;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Triplets implements Group {
     
     private Books books;
-    private int numberOfTriplets = 0;
+    private int triplets = 0;
     
     public Triplets(Books books){
         this.books = books;
@@ -27,12 +28,28 @@ public class Triplets implements Group {
                val.setKeyMin(i, i);
             }
         }
+        val.sort();
         return val;
     }
     
     public int getTriplets(Map<Integer, Integer> booksMap){
         
-        return 0;
+        Map<Integer, Integer> valMap = new HashMap<Integer, Integer>(booksMap);
+
+        int triplets = 0;
+
+        MinMax minMax = findMinMax(valMap);
+        
+        while (minMax.getMax() > 0 && books.findDifferentBooks(valMap) > 2) {
+            valMap.replace(minMax.getKeyMax(), minMax.getMax() - 1);
+            
+            valMap.replace(minMax.getKeyMin(3), minMax.getMin(5) - 1);
+            valMap.replace(minMax.getKeyMin(4), minMax.getMin(4) - 1);
+            minMax = findMinMax(valMap);
+            triplets++;
+        }
+
+        return triplets;
     }
 
 }
