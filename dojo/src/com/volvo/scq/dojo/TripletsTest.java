@@ -19,15 +19,6 @@ public class TripletsTest {
         books.addBook(Arrays.asList(1));
     }
 
-    // @Test
-    // public void testPairs() {
-    // books.addBook(Arrays.asList(2, 2, 1, 3, 5));
-    // books.addBooksToMap();
-    //
-    // //assertEquals(3, triplet.getPairs(books.getBooksMap()));
-    // assertEquals(2, books.getBooksMap().get(2).intValue());
-    // }
-
     @Test
     public void testMinMax() {
         books.addBook(Arrays.asList(2, 2, 2, 1, 3, 5));
@@ -35,12 +26,12 @@ public class TripletsTest {
 
         MinMax minMax = triplet.findMinMax(books.getBooksMap());
         minMax.sort();
-        assertEquals(1, minMax.getMin(0));
+        assertEquals(2, minMax.getMin(0));
         assertEquals(1, minMax.getMin(1));
-        assertEquals(2, minMax.getMin(2));
-        assertEquals(3, minMax.getKeyMin(0));
-        assertEquals(5, minMax.getKeyMin(1));
-        assertEquals(1, minMax.getKeyMin(2));
+        assertEquals(1, minMax.getMin(2));
+        assertEquals(1, minMax.getKeyMin(0));
+        assertEquals(3, minMax.getKeyMin(1));
+        assertEquals(5, minMax.getKeyMin(2));
 
         assertEquals(3, minMax.getMax());
         assertEquals(2, minMax.getKeyMax());
@@ -55,7 +46,6 @@ public class TripletsTest {
 
         assertEquals(2, minMax2.getMax());
         assertEquals(1, minMax2.getKeyMax());
-
     }
 
     @Test
@@ -64,19 +54,16 @@ public class TripletsTest {
         books.addBooksToMap();
 
         MinMax minMax = triplet.findMinMax(books.getBooksMap());
-
         assertEquals(0, triplet.getTriplets(books.getBooksMap()));
-
-        
         
         Books secondBooks = new Books();
         Triplets secondTriplet = new Triplets(secondBooks);
 
-        secondBooks.addBook(Arrays.asList(2, 2, 2, 1, 1, 3, 5));
+        secondBooks.addBook(Arrays.asList(2, 2, 2, 1, 1, 3, 4, 4, 5));
         secondBooks.addBooksToMap();
 
         MinMax minMax2 = secondTriplet.findMinMax(secondBooks.getBooksMap());
-
-        assertEquals(2, secondTriplet.getTriplets(secondBooks.getBooksMap()));
+        assertEquals(3, secondTriplet.getTriplets(secondBooks.getBooksMap()));  
+        
     }
 }

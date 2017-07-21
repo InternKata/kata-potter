@@ -26,11 +26,11 @@ public class MinMax {
     public void addMinAndKey(MinsAndKeys minAndKeys) {
         this.minsAndKeys.add(minAndKeys);
     }
-    
+
     public void setMin(int min, int index) {
         minsAndKeys.get(index).min = min;
     }
-    
+
     public void setKeyMin(int key, int index) {
         minsAndKeys.get(index).key = key;
     }
@@ -50,9 +50,9 @@ public class MinMax {
     public void setKeyMax(int keyMax) {
         this.keyMax = keyMax;
     }
-    
-    public void sort(){
-        minsAndKeys.sort((a,b) ->(b.min - a.min)); 
+
+    public void sort() {
+        minsAndKeys.sort((a, b) -> (b.min == Integer.MAX_VALUE) ? -1 : ((a.min == Integer.MAX_VALUE) ? 1 : (b.min - a.min)));
     }
 
 }

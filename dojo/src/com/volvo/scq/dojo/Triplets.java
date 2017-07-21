@@ -43,8 +43,8 @@ public class Triplets implements Group {
         while (minMax.getMax() > 0 && books.findDifferentBooks(valMap) > 2) {
             valMap.replace(minMax.getKeyMax(), minMax.getMax() - 1);
             
-            valMap.replace(minMax.getKeyMin(3), minMax.getMin(5) - 1);
-            valMap.replace(minMax.getKeyMin(4), minMax.getMin(4) - 1);
+            valMap.replace(minMax.getKeyMin(0), minMax.getMin(0) - 1);
+            valMap.replace(minMax.getKeyMin(1), minMax.getMin(1) - 1);
             minMax = findMinMax(valMap);
             triplets++;
         }
