@@ -43,7 +43,7 @@ public class CalculationTest {
         books.addBook(Arrays.asList(1, 1, 2, 2, 2));
         books.addBooksToMap();
 
-        assertEquals((2 * (2 * 8)) * 0.95 + 8, calculation.getPrice(), 0.0005);
+        assertEquals((2 * (2 * 8)) * 0.95 + 8, calculation.getBestPrice(), 0.0005);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class CalculationTest {
         books.addBook(Arrays.asList(1, 1, 2, 2, 2, 1, 2, 3));
         books.addBooksToMap();
 
-        assertEquals((3 * 8) * 0.90 + 4 * 8 * 0.95 + 8, calculation.getPrice(), 0.0005);
+        assertEquals((3 * 8) * 0.90 + 4 * 8 * 0.95 + 8, calculation.getBestPrice(), 0.0005);
     }
 
     @Test
@@ -59,7 +59,7 @@ public class CalculationTest {
         // books.addBook(Arrays.asList(1, 1, 2, 2, 2, 1, 2, 3, 4)); //1234 12 12 2
         // books.addBooksToMap();
 
-        // assertEquals((4*8)*0.80 + 2*2*8*0.95 + 8, calculation.getPrice(), 0.0005);
+        // assertEquals((4*8)*0.80 + 2*2*8*0.95 + 8, calculation.getBestPrice(), 0.0005);
 
         Books secondBooks = new Books();
 
@@ -67,22 +67,34 @@ public class CalculationTest {
         secondBooks.addBooksToMap();
         calculation.setBooks(secondBooks);
 
-        assertEquals(2 * (4 * 8) * 0.80 + 2 * 8, calculation.getPrice(), 0.0005);
+        assertEquals(2 * (4 * 8) * 0.80 + 2 * 8, calculation.getBestPrice(), 0.0005);
 
         Books thirdBooks = new Books();
 
         thirdBooks.addBook(Arrays.asList(1, 2, 3, 4, 1, 2, 2, 1, 3));
         thirdBooks.addBooksToMap();
         calculation.setBooks(thirdBooks);
-        assertEquals((4 * 8) * 0.80 + (3 * 8) * 0.90 + (2 * 8) * 0.95, calculation.getPrice(), 0.0005);
+        assertEquals((4 * 8) * 0.80 + (3 * 8) * 0.90 + (2 * 8) * 0.95, calculation.getBestPrice(), 0.0005);
     }
 
     @Test
     public void testCalculateQuintets() {
-        books.addBook(Arrays.asList(1, 1, 2, 2, 3, 1, 2, 3, 4, 5)); // 12345 123 12
+        books.addBook(Arrays.asList(1, 1, 2, 2, 3, 1, 2, 3, 4, 5)); // 1234 1235 123 12
         books.addBooksToMap();
 
-        assertEquals((5 * 8) * 0.75 + 3 * 8 * 0.90 + 2 * 8 * 0.95, calculation.getPrice(), 0.0005);
+        assertEquals(2*(4 * 8) * 0.8 + 2 * 8 * 0.95, calculation.getBestPrice(), 0.0005);
+        Books thirdBooks = new Books();
+
+        thirdBooks.addBook(Arrays.asList(5, 5, 5, 5, 5,
+                                         1, 1, 1, 1, 1, 
+                                         2, 2, 2, 2, 
+                                         3, 3, 3, 3, 3, 
+                                         4, 4, 4, 4));
+        thirdBooks.addBooksToMap();
+        calculation.setBooks(thirdBooks);
+
+        assertEquals(3 * (8 * 5 * 0.75) + 2 * (8 * 4 * 0.8),calculation.calculateQuintets(thirdBooks.getBooksMap(), 
+                                                                                          thirdBooks.basketSize()), 0.0005);
     }
 
     @Test
@@ -106,13 +118,13 @@ public class CalculationTest {
         assignBooks((8 * 4 * 0.8) + (8 * 2 * 0.95), Arrays.asList(5, 5, 1, 2, 2, 3));
         assignBooks(8 + (8 * 5 * 0.75), Arrays.asList(5, 1, 1, 2, 3, 4));
         
-//       assignBooks(2 * (8 * 4 * 0.8), Arrays.asList(5, 5, 1, 1, 2, 2, 3, 4));
-//       assignBooks(3 * (8 * 5 * 0.75) + 2 * (8 * 4 * 0.8), 
-//         Arrays.asList(5, 5, 5, 5, 5,
-//                 1, 1, 1, 1, 1, 
-//                 2, 2, 2, 2, 
-//                 3, 3, 3, 3, 3, 
-//                 4, 4, 4, 4));
+       assignBooks(2 * (8 * 4 * 0.8), Arrays.asList(5, 5, 1, 1, 2, 2, 3, 4));
+       assignBooks(3 * (8 * 5 * 0.75) + 2 * (8 * 4 * 0.8), 
+         Arrays.asList(5, 5, 5, 5, 5,
+                 1, 1, 1, 1, 1, 
+                 2, 2, 2, 2, 
+                 3, 3, 3, 3, 3, 
+                 4, 4, 4, 4));
     }
 
     private void assignBooks(double expectedValue, List<Integer> books) {
@@ -121,6 +133,6 @@ public class CalculationTest {
         thirdBooks.addBook(books);
         thirdBooks.addBooksToMap();
         calculation.setBooks(thirdBooks);
-        assertEquals(expectedValue, calculation.getPrice(), 0.0005);
+        assertEquals(expectedValue, calculation.getBestPrice(), 0.0005);
     }
 }

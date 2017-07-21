@@ -20,11 +20,15 @@ public class QuintetsTest {
 
 
     @Test
-    public void testCountQuartets() {
-        books.addBook(Arrays.asList(2, 2, 2, 1));
+    public void testCountQuintets() {
+        books.addBook(Arrays.asList(5, 5, 5, 5, 5,
+                                    1, 1, 1, 1, 1, 
+                                    2, 2, 2, 2, 
+                                    3, 3, 3, 3, 3, 
+                                    4, 4, 4, 4));
         books.addBooksToMap();
 
-        assertEquals(0, quintets.getGroups(books.getBooksMap()));
+        assertEquals(4, quintets.getGroups(books.getBooksMap()));
         
         Books secondBooks = new Books();
         Quintets secondQuintet = new Quintets(secondBooks);

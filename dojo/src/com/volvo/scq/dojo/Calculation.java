@@ -28,40 +28,24 @@ public class Calculation {
         this.books = books;
     }
 
-    public float calculatePrice() {
-
-        switch (books.basketSize()) {
-        case 0:
-            return 0;
-        case 1:
-            return PRICE;
-        default:
-            return getPrice();
-        }
-    }
-
-    // public float calculateDiscount() {
+    // public float calculatePrice() {
     //
     // switch (books.basketSize()) {
-    // case 2:
-    // return (PRICE * 2) * discountValues[1];
-    // case 3:
-    // return (PRICE * 3) * discountValues[2];
-    // case 4:
-    // return (PRICE * 4) * discountValues[3];
-    // case 5:
-    // return (PRICE * 5) * discountValues[4];
-    // default:
+    // case 0:
     // return 0;
+    // case 1:
+    // return PRICE;
+    // default:
+    // return getPrice();
     // }
     // }
-    //
-    public float getPrice() {
+
+    public float getPrice(int level) {
 
         float price = 0;
 
         Map<Integer, Integer> booksMap = new HashMap<Integer, Integer>(books.getBooksMap());
-        switch (books.findDifferentBooks(booksMap)) {
+        switch (level) {
         case 1:
             price = PRICE * books.basketSize();
             break;
@@ -77,6 +61,8 @@ public class Calculation {
         case 5:
             price = calculateQuintets(booksMap, books.basketSize());
             break;
+        default:
+            price = 0;
         }
 
         return price;
@@ -102,53 +88,60 @@ public class Calculation {
 
         return price + price2;
     }
-    
+
     public float calculateQuartets(Map<Integer, Integer> booksMap, int basketSize) {
         float price;
 
         int quartets = this.quartets.getGroups(booksMap);
         basketSize -= quartets * 4;
-        Map <Integer, Integer> booksMapPairs= new HashMap<>(booksMap);
-        Map <Integer, Integer> booksMapTriplets= new HashMap<>(booksMap);
+        Map<Integer, Integer> booksMapPairs = new HashMap<>(booksMap);
+        Map<Integer, Integer> booksMapTriplets = new HashMap<>(booksMap);
         float pricePairs = calculatePairs(booksMapPairs, basketSize);
         float priceTriplets = calculateTriplets(booksMapTriplets, basketSize);
         price = (quartets * (4 * PRICE)) * discountValues[3];
 
-        return price + ((pricePairs > priceTriplets) ? priceTriplets : pricePairs) ;
+        return price + ((pricePairs > priceTriplets) ? priceTriplets : pricePairs);
     }
-    
+
     public float calculateQuintets(Map<Integer, Integer> booksMap, int basketSize) {
         float price;
 
         int quintets = this.quintets.getGroups(booksMap);
         basketSize -= quintets * 5;
-        Map <Integer, Integer> booksMapPairs= new HashMap<>(booksMap);
-        Map <Integer, Integer> booksMapTriplets= new HashMap<>(booksMap);
-        Map <Integer, Integer> booksMapQuartets= new HashMap<>(booksMap);
+        Map<Integer, Integer> booksMapPairs = new HashMap<>(booksMap);
+        Map<Integer, Integer> booksMapTriplets = new HashMap<>(booksMap);
+        Map<Integer, Integer> booksMapQuartets = new HashMap<>(booksMap);
         float pricePairs = calculatePairs(booksMapPairs, basketSize);
         float priceTriplets = calculateTriplets(booksMapTriplets, basketSize);
         float priceQuartets = calculateQuartets(booksMapQuartets, basketSize);
         price = (quintets * (5 * PRICE)) * discountValues[4];
-        
+
         float bestPrice = pricePairs;
-        if(bestPrice > priceTriplets) {
+        if (bestPrice > priceTriplets) {
             bestPrice = priceTriplets;
         }
-        if(bestPrice > priceQuartets) {
+        if (bestPrice > priceQuartets) {
             bestPrice = priceQuartets;
         }
-        return price + bestPrice ;
+        return price + bestPrice;
     }
 
-//    public float getBestPrice() {
-//
-//        float priceAsc = 0;
-//        float priceDesc = 0;
-//        int differentBooks = books.findDifferentBooks();
-//
-//        price = books.basketSize() * 8;
-//
-//        return price;
-//    }
+    public float getBestPrice() {
+        float price = Integer.MAX_VALUE;
+        int level = books.findDifferentBooks();
+        float result = 0f;
+        if (level == 0) {
+            return 0;
+        }
+        while (level > 0) {
+            result = getPrice(level);
+            level--;
+            if (result < price) {
+                price = result;
+            }
+        }
+
+        return price;
+    }
 
 }
