@@ -2,12 +2,11 @@ package com.volvo.scq.dojo;
 
 import java.util.Map;
 
-public class Triplets implements Group {
+public class Quartets implements Group {
+
+private Books books;
     
-    private Books books;
-    private int numberOfTriplets = 0;
-    
-    public Triplets(Books books){
+    public Quartets(Books books){
         this.books = books;
     }
 

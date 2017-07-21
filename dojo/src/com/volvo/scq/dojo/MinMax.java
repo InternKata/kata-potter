@@ -10,7 +10,7 @@ public class MinMax {
     private int keyMax = 0;
 
     public MinMax() {
-        for (int i = 1; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             minsAndKeys.add(new MinsAndKeys(Integer.MAX_VALUE, i));
         }
     }
@@ -51,8 +51,8 @@ public class MinMax {
         this.keyMax = keyMax;
     }
     
-//    public void sort(){
-//        minsAndKeys.sort((a,b) ->(b.min - a.min));
-//    }
+    public void sort(){
+        minsAndKeys.sort((a,b) ->(a.min - b.min));
+    }
 
 }
