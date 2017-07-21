@@ -45,5 +45,13 @@ public class CalculationTest {
         
         assertEquals((3*(2*8))*0.95 + 8, calculation.getPrice(), 0.0005);
     }
+    
+    @Test
+    public void testCalculateTriplets() {
+        books.addBook(Arrays.asList(1, 2, 2, 2, 1, 2, 3));
+        books.addBooksToMap();
+        
+        assertEquals((3*8)*0.90 + 4*8*0.95 + 8, calculation.getPrice(), 0.0005);
+    }
 
 }

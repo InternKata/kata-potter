@@ -57,14 +57,17 @@ public class Calculation {
     // }
     //
     public float getPrice() {
-        
+
         float price = 0;
-        
+
         Map<Integer, Integer> booksMap = new HashMap<Integer, Integer>(books.getBooksMap());
         switch (books.findDifferentBooks(booksMap)) {
         case 2:
             price = calculatePairs(booksMap);
-
+            break;
+        case 3:
+            price = calculateTriplets(booksMap);
+            break;
         }
 
         return price;
@@ -72,7 +75,6 @@ public class Calculation {
 
     public float calculatePairs(Map<Integer, Integer> booksMap) {
         float price;
-//        Map<Integer, Integer> booksMap2 = new HashMap<Integer, Integer>(books.getBooksMap());
 
         int basketSize = books.basketSize();
         int pairs = this.pairs.getGroups(booksMap);
@@ -80,6 +82,18 @@ public class Calculation {
         price = (pairs * (2 * PRICE)) * discountValues[1] + basketSize * PRICE;
 
         return price;
+    }
+
+    public float calculateTriplets(Map<Integer, Integer> booksMap) {
+        float price;
+
+        int basketSize = books.basketSize();
+        int triplets = this.triplets.getGroups(booksMap);
+        basketSize -= triplets * 3;
+        float price2 = calculatePairs(booksMap);
+        price = (triplets * (3 * PRICE)) * discountValues[2];
+
+        return price + price2;
     }
 
     public float getBestPrice() {
