@@ -29,7 +29,7 @@ public class QuartetsTest {
         Books secondBooks = new Books();
         Quartets secondQuartet = new Quartets(secondBooks);
 
-        secondBooks.addBook(Arrays.asList(2, 2, 2, 2, 1, 1, 3, 4, 4, 5));
+        secondBooks.addBook(Arrays.asList(2, 2, 2, 2, 1, 1, 3, 3, 4, 4));
         secondBooks.addBooksToMap();
 
         assertEquals(2, secondQuartet.getGroups(secondBooks.getBooksMap()));  

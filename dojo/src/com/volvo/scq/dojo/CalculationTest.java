@@ -39,10 +39,10 @@ public class CalculationTest {
     
     @Test
     public void testCalculatePairs() {
-        books.addBook(Arrays.asList(1, 1, 2, 2, 2, 1, 2));
+        books.addBook(Arrays.asList(1, 1, 2, 2, 2));
         books.addBooksToMap();
         
-        assertEquals((3*(2*8))*0.95 + 8, calculation.getPrice(), 0.0005);
+        assertEquals((2*(2*8))*0.95 + 8, calculation.getPrice(), 0.0005);
     }
     
     @Test
@@ -55,10 +55,26 @@ public class CalculationTest {
     
     @Test
     public void testCalculateQuartets() {
-        books.addBook(Arrays.asList(1, 1, 2, 2, 2, 1, 2, 3, 4)); //1234 12 12 2
-        books.addBooksToMap();
+     //   books.addBook(Arrays.asList(1, 1, 2, 2, 2, 1, 2, 3, 4)); //1234 12 12 2
+     //   books.addBooksToMap();
         
-        assertEquals((4*8)*0.80 + 2*2*8*0.95 + 8, calculation.getPrice(), 0.0005);
+   //     assertEquals((4*8)*0.80 + 2*2*8*0.95 + 8, calculation.getPrice(), 0.0005);
+        
+        Books secondBooks = new Books();
+
+        secondBooks.addBook(Arrays.asList(2, 2, 2, 2, 1, 1, 3, 3, 4, 4)); //1234 1234 22
+        secondBooks.addBooksToMap();
+        calculation.setBooks(secondBooks);
+
+        assertEquals(2*(4*8)*0.80 + 2*8, calculation.getPrice(), 0.0005);
+        
+        Books thirdBooks = new Books();
+      
+
+        thirdBooks.addBook(Arrays.asList(1, 2, 3, 4, 1, 2, 2, 1, 3));
+        thirdBooks.addBooksToMap();
+        calculation.setBooks(thirdBooks);
+        assertEquals((4*8)*0.80 + (3*8)*0.90 + (2*8)*0.95, calculation.getPrice(), 0.0005);
     }
 
 }
