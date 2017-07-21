@@ -32,21 +32,20 @@ private Books books;
     }
     
     public int getGroups(Map<Integer, Integer> booksMap){
-        Map<Integer, Integer> valMap = new HashMap<Integer, Integer>(booksMap);
 
         int quintets = 0;
 
-        MinMax minMax = findMinMax(valMap);
+        MinMax minMax = findMinMax(booksMap);
         
-        while (minMax.getMax() > 0 && books.findDifferentBooks(valMap) > 4) {
-            valMap.replace(minMax.getKeyMax(), minMax.getMax() - 1);
+        while (minMax.getMax() > 0 && books.findDifferentBooks(booksMap) > 4) {
+            booksMap.replace(minMax.getKeyMax(), minMax.getMax() - 1);
             
-            valMap.replace(minMax.getKeyMin(0), minMax.getMin(0) - 1);
-            valMap.replace(minMax.getKeyMin(1), minMax.getMin(1) - 1);
-            valMap.replace(minMax.getKeyMin(2), minMax.getMin(2) - 1);
-            valMap.replace(minMax.getKeyMin(3), minMax.getMin(3) - 1);
+            booksMap.replace(minMax.getKeyMin(0), minMax.getMin(0) - 1);
+            booksMap.replace(minMax.getKeyMin(1), minMax.getMin(1) - 1);
+            booksMap.replace(minMax.getKeyMin(2), minMax.getMin(2) - 1);
+            booksMap.replace(minMax.getKeyMin(3), minMax.getMin(3) - 1);
             
-            minMax = findMinMax(valMap);
+            minMax = findMinMax(booksMap);
             quintets++;
         }
 

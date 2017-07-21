@@ -62,6 +62,9 @@ public class Calculation {
 
         Map<Integer, Integer> booksMap = new HashMap<Integer, Integer>(books.getBooksMap());
         switch (books.findDifferentBooks(booksMap)) {
+        case 1:
+            price = PRICE * books.basketSize();
+            break;
         case 2:
             price = calculatePairs(booksMap, books.basketSize());
             break;
@@ -70,6 +73,9 @@ public class Calculation {
             break;
         case 4:
             price = calculateQuartets(booksMap, books.basketSize());
+            break;
+        case 5:
+            price = calculateQuintets(booksMap, books.basketSize());
             break;
         }
 
@@ -110,15 +116,39 @@ public class Calculation {
 
         return price + ((pricePairs > priceTriplets) ? priceTriplets : pricePairs) ;
     }
+    
+    public float calculateQuintets(Map<Integer, Integer> booksMap, int basketSize) {
+        float price;
 
-    public float getBestPrice() {
-
-        float price = 0;
-        int differentBooks = books.findDifferentBooks();
-
-        price = books.basketSize() * 8;
-
-        return price;
+        int quintets = this.quintets.getGroups(booksMap);
+        basketSize -= quintets * 5;
+        Map <Integer, Integer> booksMapPairs= new HashMap<>(booksMap);
+        Map <Integer, Integer> booksMapTriplets= new HashMap<>(booksMap);
+        Map <Integer, Integer> booksMapQuartets= new HashMap<>(booksMap);
+        float pricePairs = calculatePairs(booksMapPairs, basketSize);
+        float priceTriplets = calculateTriplets(booksMapTriplets, basketSize);
+        float priceQuartets = calculateQuartets(booksMapQuartets, basketSize);
+        price = (quintets * (5 * PRICE)) * discountValues[4];
+        
+        float bestPrice = pricePairs;
+        if(bestPrice > priceTriplets) {
+            bestPrice = priceTriplets;
+        }
+        if(bestPrice > priceQuartets) {
+            bestPrice = priceQuartets;
+        }
+        return price + bestPrice ;
     }
+
+//    public float getBestPrice() {
+//
+//        float priceAsc = 0;
+//        float priceDesc = 0;
+//        int differentBooks = books.findDifferentBooks();
+//
+//        price = books.basketSize() * 8;
+//
+//        return price;
+//    }
 
 }
