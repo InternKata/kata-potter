@@ -63,20 +63,22 @@ public class Calculation {
         Map<Integer, Integer> booksMap = new HashMap<Integer, Integer>(books.getBooksMap());
         switch (books.findDifferentBooks(booksMap)) {
         case 2:
-            price = calculatePairs(booksMap);
+            price = calculatePairs(booksMap, books.basketSize());
             break;
         case 3:
-            price = calculateTriplets(booksMap);
+            price = calculateTriplets(booksMap, books.basketSize());
+            break;
+        case 4:
+            price = calculateQuartets(booksMap, books.basketSize());
             break;
         }
 
         return price;
     }
 
-    public float calculatePairs(Map<Integer, Integer> booksMap) {
+    public float calculatePairs(Map<Integer, Integer> booksMap, int basketSize) {
         float price;
 
-        int basketSize = books.basketSize();
         int pairs = this.pairs.getGroups(booksMap);
         basketSize -= pairs * 2;
         price = (pairs * (2 * PRICE)) * discountValues[1] + basketSize * PRICE;
@@ -84,16 +86,29 @@ public class Calculation {
         return price;
     }
 
-    public float calculateTriplets(Map<Integer, Integer> booksMap) {
+    public float calculateTriplets(Map<Integer, Integer> booksMap, int basketSize) {
         float price;
 
-        int basketSize = books.basketSize();
         int triplets = this.triplets.getGroups(booksMap);
         basketSize -= triplets * 3;
-        float price2 = calculatePairs(booksMap);
+        float price2 = calculatePairs(booksMap, basketSize);
         price = (triplets * (3 * PRICE)) * discountValues[2];
 
         return price + price2;
+    }
+    
+    public float calculateQuartets(Map<Integer, Integer> booksMap, int basketSize) {
+        float price;
+
+        int quartets = this.quartets.getGroups(booksMap);
+        basketSize -= quartets * 4;
+        Map <Integer, Integer> booksMapPairs= new HashMap<>(booksMap);
+        Map <Integer, Integer> booksMapTriplets= new HashMap<>(booksMap);
+        float pricePairs = calculatePairs(booksMapPairs, basketSize);
+        float priceTriplets = calculateTriplets(booksMapTriplets, basketSize);
+        price = (quartets * (4 * PRICE)) * discountValues[3];
+
+        return price + ((pricePairs > priceTriplets) ? priceTriplets : pricePairs) ;
     }
 
     public float getBestPrice() {

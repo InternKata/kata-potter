@@ -27,6 +27,7 @@ private Books books;
                val.setKeyMin(i, i);
             }
         }
+        val.sort();
         return val;
     }
     
