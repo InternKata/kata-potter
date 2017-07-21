@@ -18,8 +18,6 @@ public class Calculation {
         quartets = new Quartets(books);
         quintets = new Quintets(books);
 
-        
-
     }
 
     public Books getBooks() {
@@ -42,50 +40,47 @@ public class Calculation {
         }
     }
 
-//    public float calculateDiscount() {
-//
-//        switch (books.basketSize()) {
-//        case 2:
-//            return (PRICE * 2) * discountValues[1];
-//        case 3:
-//            return (PRICE * 3) * discountValues[2];
-//        case 4:
-//            return (PRICE * 4) * discountValues[3];
-//        case 5:
-//            return (PRICE * 5) * discountValues[4];
-//        default:
-//            return 0;
-//        }
-//    }
-//    
-    public float getPrice(){
+    // public float calculateDiscount() {
+    //
+    // switch (books.basketSize()) {
+    // case 2:
+    // return (PRICE * 2) * discountValues[1];
+    // case 3:
+    // return (PRICE * 3) * discountValues[2];
+    // case 4:
+    // return (PRICE * 4) * discountValues[3];
+    // case 5:
+    // return (PRICE * 5) * discountValues[4];
+    // default:
+    // return 0;
+    // }
+    // }
+    //
+    public float getPrice() {
+        
+        float price = 0;
         
         Map<Integer, Integer> booksMap = new HashMap<Integer, Integer>(books.getBooksMap());
-        switch(books.findDifferentBooks(booksMap)){
+        switch (books.findDifferentBooks(booksMap)) {
         case 2:
-            calculatePairs(booksMap);
-        
+            price = calculatePairs(booksMap);
+
         }
-        
-        
-        return 0;
-    }
-    
-    public float calculatePairs(Map<Integer, Integer> booksMap){
-        float price;
-        Map<Integer, Integer> booksMap2 = new HashMap<Integer, Integer>(books.getBooksMap());
-        
-        int basketSize = books.basketSize();
-        int pairs = this.pairs.getGroups(booksMap);
-        basketSize -= pairs*2;
-        price = pairs*2*PRICE*discountValues[1] + basketSize*PRICE;
-        
-        
 
         return price;
     }
-    
-    
+
+    public float calculatePairs(Map<Integer, Integer> booksMap) {
+        float price;
+//        Map<Integer, Integer> booksMap2 = new HashMap<Integer, Integer>(books.getBooksMap());
+
+        int basketSize = books.basketSize();
+        int pairs = this.pairs.getGroups(booksMap);
+        basketSize -= pairs * 2;
+        price = (pairs * (2 * PRICE)) * discountValues[1] + basketSize * PRICE;
+
+        return price;
+    }
 
     public float getBestPrice() {
 
@@ -96,7 +91,5 @@ public class Calculation {
 
         return price;
     }
-
-   
 
 }

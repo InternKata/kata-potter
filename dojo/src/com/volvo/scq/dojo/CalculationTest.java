@@ -37,5 +37,13 @@ public class CalculationTest {
         books.addBook(Arrays.asList(2));
         assertEquals(30, calculation.calculatePrice(), 0.0005);
     }
+    
+    @Test
+    public void testCalculatePairs() {
+        books.addBook(Arrays.asList(1, 2, 2, 2, 1, 2));
+        books.addBooksToMap();
+        
+        assertEquals((3*(2*8))*0.95 + 8, calculation.getPrice(), 0.0005);
+    }
 
 }

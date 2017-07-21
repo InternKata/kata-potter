@@ -5,13 +5,14 @@ import java.util.Map;
 
 public class Pairs implements Group {
     Books books;
+    private int pairs = 0;
 
     public Pairs(Books books) {
         this.books = books;
 
     }
 
-    private int pairs = 0;
+    
 
     public int getPairs() {
         return pairs;
@@ -46,7 +47,7 @@ public class Pairs implements Group {
         int pairs = 0;
 
         MinMax minMax = findMinMax(valMap);
-        while (minMax.getMax() > 0 && books.findDifferentBooks() > 1) {
+        while (minMax.getMax() > 0 && books.findDifferentBooks(valMap) > 1) {
             valMap.replace(minMax.getKeyMax(), minMax.getMax() - 1);
             valMap.replace(minMax.getKeyMin(0), minMax.getMin(0) - 1);
             minMax = findMinMax(valMap);
