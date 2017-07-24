@@ -47,25 +47,25 @@ public class CalculationTest {
 
     @Test
     public void shouldCalculatePriceForQuartetsWhenExists() {
-        books.addBook(Arrays.asList(1, 1, 2, 2, 2, 1, 2, 3, 4)); // 1234 12 12 2
+        // given
+        List<Integer> basket = Arrays.asList(1, 1, 2, 2, 2, 1, 2, 3, 4);
+        BigDecimal quartetSize = BigDecimal.valueOf(4);
+        BigDecimal quartetDiscount = discountValues[3];
+        BigDecimal pairSize = BigDecimal.valueOf(2);
+        BigDecimal pairDiscount = discountValues[1];
+        BigDecimal numberOfPairs = BigDecimal.valueOf(2);
+        BigDecimal bestPrice = BigDecimal.ZERO;
+
+        // when
+        books.addBook(basket); // 1234 12 12 2
         books.addBooksToMap();
+        bestPrice = calculation.getBestPrice();
 
-        assertEquals((4 * PRICE) * 0.80 + 2 * 2 * PRICE * 0.95 + PRICE, calculation.getBestPrice(), 0.0005);
+        // then
+        BigDecimal quartetPrice = quartetSize.multiply(PRICE).multiply(quartetDiscount);
+        BigDecimal pairPrice = pairSize.multiply(PRICE).multiply(pairDiscount);
 
-        Books secondBooks = new Books();
-
-        secondBooks.addBook(Arrays.asList(2, 2, 2, 2, 1, 1, 3, 3, 4, 4)); // 1234 1234 22
-        secondBooks.addBooksToMap();
-        calculation.setBooks(secondBooks);
-
-        assertEquals(2 * (4 * 8) * 0.80 + 2 * 8, calculation.getBestPrice(), 0.0005);
-
-        Books thirdBooks = new Books();
-
-        thirdBooks.addBook(Arrays.asList(1, 2, 3, 4, 1, 2, 2, 1, 3));
-        thirdBooks.addBooksToMap();
-        calculation.setBooks(thirdBooks);
-        assertEquals((4 * 8) * 0.80 + (3 * 8) * 0.90 + (2 * 8) * 0.95, calculation.getBestPrice(), 0.0005);
+        assertEquals(quartetPrice.add((numberOfPairs.multiply(pairPrice)).add(PRICE)), bestPrice);
     }
 
     @Test
