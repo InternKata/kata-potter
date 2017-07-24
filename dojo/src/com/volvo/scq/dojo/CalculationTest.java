@@ -1,5 +1,7 @@
 package com.volvo.scq.dojo;
 
+import static com.volvo.scq.dojo.Calculation.PRICE;
+import static com.volvo.scq.dojo.Calculation.discountValues;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
@@ -21,45 +23,32 @@ public class CalculationTest {
     }
 
     @Test
-    public void testBasics() {
+    public void shouldReturnZeroWhenBasketIsEmpty() {
         assertEquals(0, books.basketSize());
     }
 
-    // @Test
-    // public void testCalculating() {
-    // assertEquals(8, calculation.calculatePrice(), 0.0005);
-    // books.addBook(Arrays.asList(2));
-    // assertEquals(15.2, calculation.calculatePrice(), 0.0005);
-    // books.addBook(Arrays.asList(2));
-    // assertEquals(21.6, calculation.calculatePrice(), 0.0005);
-    // books.addBook(Arrays.asList(2));
-    // assertEquals(25.6, calculation.calculatePrice(), 0.0005);
-    // books.addBook(Arrays.asList(2));
-    // assertEquals(30, calculation.calculatePrice(), 0.0005);
-    // }
-
     @Test
-    public void testCalculatePairs() {
+    public void shouldCalculatePriceForPairsWhenExists() {
         books.addBook(Arrays.asList(1, 1, 2, 2, 2));
         books.addBooksToMap();
 
-        assertEquals((2 * (2 * 8)) * 0.95 + 8, calculation.getBestPrice(), 0.0005);
+        assertEquals((2 * (2 * PRICE)) * discountValues[1] + PRICE, calculation.getBestPrice(), 0.0005);
     }
 
     @Test
-    public void testCalculateTriplets() {
+    public void shouldCalculatePriceForTripletsWhenExists() {
         books.addBook(Arrays.asList(1, 1, 2, 2, 2, 1, 2, 3));
         books.addBooksToMap();
 
-        assertEquals((3 * 8) * 0.90 + 4 * 8 * 0.95 + 8, calculation.getBestPrice(), 0.0005);
+        assertEquals((3 * PRICE) * discountValues[2] + 4 * PRICE * discountValues[1] + PRICE, calculation.getBestPrice(), 0.0005);
     }
 
     @Test
-    public void testCalculateQuartets() {
-        // books.addBook(Arrays.asList(1, 1, 2, 2, 2, 1, 2, 3, 4)); //1234 12 12 2
-        // books.addBooksToMap();
+    public void shouldCalculatePriceForQuartetsWhenExists() {
+        books.addBook(Arrays.asList(1, 1, 2, 2, 2, 1, 2, 3, 4)); // 1234 12 12 2
+        books.addBooksToMap();
 
-        // assertEquals((4*8)*0.80 + 2*2*8*0.95 + 8, calculation.getBestPrice(), 0.0005);
+        assertEquals((4 * PRICE) * 0.80 + 2 * 2 * PRICE * 0.95 + PRICE, calculation.getBestPrice(), 0.0005);
 
         Books secondBooks = new Books();
 
@@ -78,53 +67,17 @@ public class CalculationTest {
     }
 
     @Test
-    public void testCalculateQuintets() {
+    public void shouldCalculatePriceForQuintetsWhenExists() {
         books.addBook(Arrays.asList(1, 1, 2, 2, 3, 1, 2, 3, 4, 5)); // 1234 1235 123 12
         books.addBooksToMap();
 
-        assertEquals(2*(4 * 8) * 0.8 + 2 * 8 * 0.95, calculation.getBestPrice(), 0.0005);
-        Books thirdBooks = new Books();
+        assertEquals(2 * (4 * 8) * 0.8 + 2 * 8 * 0.95, calculation.getBestPrice(), 0.0005);
 
-        thirdBooks.addBook(Arrays.asList(5, 5, 5, 5, 5,
-                                         1, 1, 1, 1, 1, 
-                                         2, 2, 2, 2, 
-                                         3, 3, 3, 3, 3, 
-                                         4, 4, 4, 4));
-        thirdBooks.addBooksToMap();
-        calculation.setBooks(thirdBooks);
-
-        assertEquals(3 * (8 * 5 * 0.75) + 2 * (8 * 4 * 0.8),calculation.calculateQuintets(thirdBooks.getBooksMap(), 
-                                                                                          thirdBooks.basketSize()), 0.0005);
     }
 
     @Test
-    public void testPrices() {
-//        assignBooks(0, Arrays.asList());
-//        assignBooks(8, Arrays.asList(5));
-//        assignBooks(8, Arrays.asList(1));
-//        assignBooks(8, Arrays.asList(2));
-//        assignBooks(8, Arrays.asList(3));
-//        assignBooks(8, Arrays.asList(4));
-//        assignBooks(8 * 2, Arrays.asList(5, 5));
-//        assignBooks(8 * 3, Arrays.asList(1, 1, 1));
-//        
-//        assignBooks(8 * 2 * 0.95, Arrays.asList(5, 1));
-//        assignBooks(8 * 3 * 0.9,  Arrays.asList(5, 2, 4));
-//        assignBooks(8 * 4 * 0.8,  Arrays.asList(5, 1, 2, 4));
-//        assignBooks(8 * 5 * 0.75, Arrays.asList(5, 1, 2, 3, 4));
-//        
-//        assignBooks(8 + (8 * 2 * 0.95), Arrays.asList(5, 5, 1));
-//        assignBooks(2 * (8 * 2 * 0.95), Arrays.asList(5, 5, 1, 1));
-//        assignBooks((8 * 4 * 0.8) + (8 * 2 * 0.95), Arrays.asList(5, 5, 1, 2, 2, 3));
-//        assignBooks(8 + (8 * 5 * 0.75), Arrays.asList(5, 1, 1, 2, 3, 4));
-//        
-//       assignBooks(2 * (8 * 4 * 0.8), Arrays.asList(5, 5, 1, 1, 2, 2, 3, 4));
-       assignBooks(3 * (8 * 5 * 0.75) + 2 * (8 * 4 * 0.8), 
-         Arrays.asList(5, 5, 5, 5, 5,
-                 1, 1, 1, 1, 1, 
-                 2, 2, 2, 2, 
-                 3, 3, 3, 3, 3, 
-                 4, 4, 4, 4));
+    public void shouldCalculatePriceWithoutDiscountFor_5_5() {
+        assignBooks(8 * 2, Arrays.asList(5, 5));
     }
 
     private void assignBooks(double expectedValue, List<Integer> books) {

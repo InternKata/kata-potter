@@ -104,26 +104,46 @@ public class Calculation {
     }
 
     public float calculateQuintets(Map<Integer, Integer> booksMap, int basketSize) {
-        float price;
+        float price = 0;
+        float pricePairs = 0;
+        float priceTriplets = 0;
+        float priceQuartets = 0;
+        float bestPrice = 0;
+        float globalPrice = books.basketSize() * PRICE;
 
         int quintets = this.quintets.getGroups(booksMap);
-        basketSize -= quintets * 5;
-        Map<Integer, Integer> booksMapPairs = new HashMap<>(booksMap);
-        Map<Integer, Integer> booksMapTriplets = new HashMap<>(booksMap);
-        Map<Integer, Integer> booksMapQuartets = new HashMap<>(booksMap);
-        float pricePairs = calculatePairs(booksMapPairs, basketSize);
-        float priceTriplets = calculateTriplets(booksMapTriplets, basketSize);
-        float priceQuartets = calculateQuartets(booksMapQuartets, basketSize);
-        price = (quintets * (5 * PRICE)) * discountValues[4];
+        int index = 1;
 
-        float bestPrice = pricePairs;
-        if (bestPrice > priceTriplets) {
-            bestPrice = priceTriplets;
+        
+        while (quintets > 0) {
+            
+            basketSize -= 5;
+            quintets--;
+            Map<Integer, Integer> booksMapPairs = new HashMap<>(booksMap);
+            Map<Integer, Integer> booksMapTriplets = new HashMap<>(booksMap);
+            Map<Integer, Integer> booksMapQuartets = new HashMap<>(booksMap);
+            pricePairs = calculatePairs(booksMapPairs, basketSize);
+            priceTriplets = calculateTriplets(booksMapTriplets, basketSize);
+            priceQuartets = calculateQuartets(booksMapQuartets, basketSize);
+            price = (index++ * (5 * PRICE)) * discountValues[4];
+            bestPrice = pricePairs;
+            if (bestPrice > priceTriplets) {
+                bestPrice = priceTriplets;
+            }
+            if (bestPrice > priceQuartets) {
+                bestPrice = priceQuartets;
+            }
+            if (globalPrice > bestPrice + price){
+                globalPrice = bestPrice + price;
+            }
+            
         }
-        if (bestPrice > priceQuartets) {
-            bestPrice = priceQuartets;
-        }
-        return price + bestPrice;
+        
+       
+
+
+       
+        return globalPrice;
     }
 
     public float getBestPrice() {
