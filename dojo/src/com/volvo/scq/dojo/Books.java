@@ -1,6 +1,7 @@
 package com.volvo.scq.dojo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -11,12 +12,26 @@ public class Books {
     private Map<Integer, Integer> booksMap = new HashMap<Integer, Integer>();
     private List<Integer> basket = new ArrayList<Integer>();
 
+    public static void main(String[] args) {
+
+        List<Integer> customerBasket = Arrays.asList(1, 2, 3, 3);
+
+        Books books = new Books();
+        Calculation calculations = new Calculation();
+
+        books.addBook(customerBasket);
+        books.addBooksToMap();
+
+        calculations.setBooks(books);
+        calculations.getBestPrice();
+
+    }
+
     public Books() {
         for (int i = 1; i < 6; i++) {
             booksMap.put(i, 0);
         }
     }
-
 
     public int basketSize() {
         return basket.size();
@@ -48,7 +63,7 @@ public class Books {
 
         return differentBooks;
     }
-    
+
     public int findDifferentBooks(Map<Integer, Integer> booksMap) {
         int differentBooks = 0;
         for (int i = 1; i < 6; i++) {
