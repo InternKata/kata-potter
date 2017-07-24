@@ -1,15 +1,17 @@
 package com.volvo.scq.dojo;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Calculation {
 
-    final static int PRICE = 8;
+    final static BigDecimal PRICE = new BigDecimal("8");
     private Books books;
     private Group pairs, triplets, quartets, quintets;
 
-    final static float discountValues[] = { 1, 0.95f, 0.90f, 0.80f, 0.75f };
+    final static BigDecimal discountValues[] = { BigDecimal.ONE, new BigDecimal("0.95"), new BigDecimal("0.90"), new BigDecimal("0.80"),
+            new BigDecimal("0.75") };
 
     public Calculation() {
         books = new Books();
@@ -28,26 +30,14 @@ public class Calculation {
         this.books = books;
     }
 
-    // public float calculatePrice() {
-    //
-    // switch (books.basketSize()) {
-    // case 0:
-    // return 0;
-    // case 1:
-    // return PRICE;
-    // default:
-    // return getPrice();
-    // }
-    // }
+    public BigDecimal getPrice(int level) {
 
-    public float getPrice(int level) {
-
-        float price = 0;
+        BigDecimal price = BigDecimal.ZERO;
 
         Map<Integer, Integer> booksMap = new HashMap<Integer, Integer>(books.getBooksMap());
         switch (level) {
         case 1:
-            price = PRICE * books.basketSize();
+            price = PRICE.multiply(new BigDecimal(books.basketSize()));
             break;
         case 2:
             price = calculatePairs(booksMap, books.basketSize());
@@ -62,61 +52,61 @@ public class Calculation {
             price = calculateQuintets(booksMap, books.basketSize());
             break;
         default:
-            price = 0;
+            price = BigDecimal.ZERO;
         }
 
         return price;
     }
 
-    public float calculatePairs(Map<Integer, Integer> booksMap, int basketSize) {
-        float price;
+    public BigDecimal calculatePairs(Map<Integer, Integer> booksMap, int basketSize) {
+        BigDecimal price;
 
         int pairs = this.pairs.getGroups(booksMap);
         basketSize -= pairs * 2;
-        price = (pairs * (2 * PRICE)) * discountValues[1] + basketSize * PRICE;
+        price = (new BigDecimal(pairs).multiply(new BigDecimal("2")).multiply(PRICE).multiply(discountValues[1])
+                                      .add(new BigDecimal(basketSize).multiply(PRICE)));
 
         return price;
     }
 
-    public float calculateTriplets(Map<Integer, Integer> booksMap, int basketSize) {
-        float price;
+    public BigDecimal calculateTriplets(Map<Integer, Integer> booksMap, int basketSize) {
+        BigDecimal price;
 
         int triplets = this.triplets.getGroups(booksMap);
         basketSize -= triplets * 3;
-        float price2 = calculatePairs(booksMap, basketSize);
-        price = (triplets * (3 * PRICE)) * discountValues[2];
+        BigDecimal price2 = calculatePairs(booksMap, basketSize);
+        price = (new BigDecimal(triplets).multiply(new BigDecimal("3")).multiply(PRICE).multiply(discountValues[2]));
 
-        return price + price2;
+        return price.add(price2);
     }
 
-    public float calculateQuartets(Map<Integer, Integer> booksMap, int basketSize) {
-        float price;
+    public BigDecimal calculateQuartets(Map<Integer, Integer> booksMap, int basketSize) {
+        BigDecimal price;
 
         int quartets = this.quartets.getGroups(booksMap);
         basketSize -= quartets * 4;
         Map<Integer, Integer> booksMapPairs = new HashMap<>(booksMap);
         Map<Integer, Integer> booksMapTriplets = new HashMap<>(booksMap);
-        float pricePairs = calculatePairs(booksMapPairs, basketSize);
-        float priceTriplets = calculateTriplets(booksMapTriplets, basketSize);
-        price = (quartets * (4 * PRICE)) * discountValues[3];
+        BigDecimal pricePairs = calculatePairs(booksMapPairs, basketSize);
+        BigDecimal priceTriplets = calculateTriplets(booksMapTriplets, basketSize);
+        price = (new BigDecimal(quartets).multiply(new BigDecimal(4)).multiply(PRICE).multiply(discountValues[3]));
 
-        return price + ((pricePairs > priceTriplets) ? priceTriplets : pricePairs);
+        return price.add(((pricePairs.compareTo(priceTriplets) == 1) ? priceTriplets : pricePairs));
     }
 
-    public float calculateQuintets(Map<Integer, Integer> booksMap, int basketSize) {
-        float price = 0;
-        float pricePairs = 0;
-        float priceTriplets = 0;
-        float priceQuartets = 0;
-        float bestPrice = 0;
-        float globalPrice = books.basketSize() * PRICE;
+    public BigDecimal calculateQuintets(Map<Integer, Integer> booksMap, int basketSize) {
+        BigDecimal price = BigDecimal.ZERO;
+        BigDecimal pricePairs = BigDecimal.ZERO;
+        BigDecimal priceTriplets = BigDecimal.ZERO;
+        BigDecimal priceQuartets = BigDecimal.ZERO;
+        BigDecimal bestPrice = BigDecimal.ZERO;
+        BigDecimal globalPrice = new BigDecimal(books.basketSize()).multiply(PRICE);
 
         int quintets = this.quintets.getGroups(booksMap);
         int index = 1;
 
-        
         while (quintets > 0) {
-            
+
             basketSize -= 5;
             quintets--;
             Map<Integer, Integer> booksMapPairs = new HashMap<>(booksMap);
@@ -125,38 +115,34 @@ public class Calculation {
             pricePairs = calculatePairs(booksMapPairs, basketSize);
             priceTriplets = calculateTriplets(booksMapTriplets, basketSize);
             priceQuartets = calculateQuartets(booksMapQuartets, basketSize);
-            price = (index++ * (5 * PRICE)) * discountValues[4];
+            price = (new BigDecimal(index++).multiply(PRICE.multiply(new BigDecimal("5"))).multiply(discountValues[4]));
             bestPrice = pricePairs;
-            if (bestPrice > priceTriplets) {
+            if (bestPrice.compareTo(priceTriplets) == 1) {
                 bestPrice = priceTriplets;
             }
-            if (bestPrice > priceQuartets) {
+            if (bestPrice.compareTo(priceQuartets) == 1) {
                 bestPrice = priceQuartets;
             }
-            if (globalPrice > bestPrice + price){
-                globalPrice = bestPrice + price;
+            if (globalPrice.compareTo(bestPrice.add(price)) == 1) {
+                globalPrice = bestPrice.add(price);
             }
-            
+
         }
-        
-       
 
-
-       
         return globalPrice;
     }
 
-    public float getBestPrice() {
-        float price = Integer.MAX_VALUE;
+    public BigDecimal getBestPrice() {
+        BigDecimal price = new BigDecimal(Integer.MAX_VALUE);
         int level = books.findDifferentBooks(books.getBooksMap());
-        float result = 0f;
+        BigDecimal result = BigDecimal.ZERO;
         if (level == 0) {
-            return 0;
+            return BigDecimal.ZERO;
         }
         while (level > 0) {
             result = getPrice(level);
             level--;
-            if (result < price) {
+            if (result.compareTo(price) == -1) {
                 price = result;
             }
         }

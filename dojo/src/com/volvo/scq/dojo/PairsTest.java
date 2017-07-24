@@ -23,10 +23,7 @@ public class PairsTest {
     public void testPairs() {
         books.addBook(Arrays.asList(2, 2, 1));
         books.addBooksToMap();
-
         assertEquals(2, pairs.getGroups(books.getBooksMap()));
-        assertEquals(2, books.getBooksMap().get(2).intValue());
     }
-
 
 }

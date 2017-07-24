@@ -4,6 +4,7 @@ import static com.volvo.scq.dojo.Calculation.PRICE;
 import static com.volvo.scq.dojo.Calculation.discountValues;
 import static org.junit.Assert.assertEquals;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class CalculationTest {
         books.addBook(Arrays.asList(1, 1, 2, 2, 2));
         books.addBooksToMap();
 
-        assertEquals((2 * (2 * PRICE)) * discountValues[1] + PRICE, calculation.getBestPrice(), 0.0005);
+        assertEquals((new BigDecimal("2").multiply(new BigDecimal("2")).multiply(PRICE).multiply(discountValues[1]).add(PRICE)), calculation.getBestPrice());
     }
 
     @Test
@@ -40,7 +41,8 @@ public class CalculationTest {
         books.addBook(Arrays.asList(1, 1, 2, 2, 2, 1, 2, 3));
         books.addBooksToMap();
 
-        assertEquals((3 * PRICE) * discountValues[2] + 4 * PRICE * discountValues[1] + PRICE, calculation.getBestPrice(), 0.0005);
+        assertEquals(new BigDecimal("3").multiply(PRICE).multiply(discountValues[2]).add(new BigDecimal("4").multiply(PRICE).multiply(discountValues[1])),
+                     calculation.getBestPrice());
     }
 
     @Test

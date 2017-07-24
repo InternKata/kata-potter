@@ -1,6 +1,5 @@
 package com.volvo.scq.dojo;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class Pairs implements Group {
@@ -9,10 +8,7 @@ public class Pairs implements Group {
 
     public Pairs(Books books) {
         this.books = books;
-
     }
-
-    
 
     public int getPairs() {
         return pairs;
@@ -42,8 +38,6 @@ public class Pairs implements Group {
     }
 
     public int getGroups(Map<Integer, Integer> booksMap) {
-      //  Map<Integer, Integer> valMap = new HashMap<Integer, Integer>(booksMap);
-
         int pairs = 0;
 
         MinMax minMax = findMinMax(booksMap);
@@ -53,7 +47,6 @@ public class Pairs implements Group {
             minMax = findMinMax(booksMap);
             pairs++;
         }
-
         return pairs;
     }
 }

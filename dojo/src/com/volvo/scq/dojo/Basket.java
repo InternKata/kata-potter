@@ -7,12 +7,15 @@ public class Basket {
 
     List<Book> books = new ArrayList<Book>();
 
+    public Basket(List<Book> books) {
+        addBooks(books);
+    }
+
     public int getSize() {
         return books.size();
     }
 
     public List<Book> getBooks() {
-
         return books;
     }
 
