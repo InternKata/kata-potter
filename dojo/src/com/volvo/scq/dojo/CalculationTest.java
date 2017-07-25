@@ -106,17 +106,16 @@ public class CalculationTest {
         assertEquals(quartetPrice.add((numberOfPairs.multiply(pairPrice)).add(PRICE)), bestPrice);
     }
 
+    // TODO: asdfasd
+    // FIXME: fasgasdasd
     @Test
     public void shouldCalculatePriceForQuintetsWhenExists() {
         // given
-        BigDecimal pairDiscount = discountValues[1];
+        List<Integer> basket = Arrays.asList(1, 1, 2, 2, 3, 1, 2, 3, 4, 5);
         BigDecimal numberOfQuartets = BigDecimal.valueOf(2);
-        BigDecimal bestPrice = BigDecimal.ZERO;
 
         // when
-        books.addBook(Arrays.asList(1, 1, 2, 2, 3, 1, 2, 3, 4, 5)); // 1234 1235 123 12
-        books.addBooksToMap();
-        bestPrice = calculation.getBestPrice();
+        BigDecimal bestPrice = calculatePrice(basket);
 
         // then
         BigDecimal quartetPrice = quartetSize.multiply(PRICE).multiply(quartetDiscount);
@@ -138,4 +137,15 @@ public class CalculationTest {
         calculation.setBooks(books);
         assertEquals(expectedValue, calculation.getBestPrice());
     }
+
+    private BigDecimal calculatePrice(List<Integer> basket) {
+        Books books = new Books();
+
+        books.addBook(basket);
+        books.addBooksToMap();
+        calculation.setBooks(books);
+
+        return calculation.getBestPrice();
+    }
+
 }
