@@ -41,7 +41,8 @@ public class CalculationTest {
         books.addBook(Arrays.asList(1, 1, 2, 2, 2, 1, 2, 3));
         books.addBooksToMap();
 
-        assertEquals(new BigDecimal("3").multiply(PRICE).multiply(discountValues[2]).add(new BigDecimal("4").multiply(PRICE).multiply(discountValues[1])),
+        assertEquals(new BigDecimal("3").multiply(PRICE).multiply(discountValues[2])
+                                        .add(new BigDecimal("4").multiply(PRICE).multiply(discountValues[1]).add(PRICE)),
                      calculation.getBestPrice());
     }
 
@@ -74,27 +75,26 @@ public class CalculationTest {
         BigDecimal quartetDiscount = discountValues[3];
         BigDecimal bestPrice = BigDecimal.ZERO;
 
-        bestPrice = calculation.getBestPrice();
-
         books.addBook(Arrays.asList(1, 1, 2, 2, 3, 1, 2, 3, 4, 5)); // 1234 1235 123 12
         books.addBooksToMap();
+        bestPrice = calculation.getBestPrice();
 
-        assertEquals(new BigDecimal("2").multiply(new BigDecimal("4").multiply(PRICE)).multiply(quartetDiscount).add(new BigDecimal("2")).multiply(PRICE)
-                                        .multiply(pairDiscount),
+        assertEquals(new BigDecimal("2").multiply(new BigDecimal("4").multiply(PRICE)).multiply(quartetDiscount)
+                                        .add((new BigDecimal("2")).multiply(PRICE).multiply(pairDiscount)),
                      bestPrice);
     }
 
     @Test
     public void shouldCalculatePriceWithoutDiscountFor_5_5() {
-        assignBooks(8 * 2, Arrays.asList(5, 5));
+        assignBooks(new BigDecimal(2).multiply(PRICE), Arrays.asList(5, 5));
     }
 
-    private void assignBooks(double expectedValue, List<Integer> books) {
-        Books thirdBooks = new Books();
+    private void assignBooks(BigDecimal expectedValue, List<Integer> booksList) {
+        Books books = new Books();
 
-        thirdBooks.addBook(books);
-        thirdBooks.addBooksToMap();
-        calculation.setBooks(thirdBooks);
-        assertEquals(expectedValue, calculation.getBestPrice(), 0.0005);
+        books.addBook(booksList);
+        books.addBooksToMap();
+        calculation.setBooks(books);
+        assertEquals(expectedValue, calculation.getBestPrice());
     }
 }
