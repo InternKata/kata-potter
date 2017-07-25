@@ -1,7 +1,7 @@
 package com.volvo.scq.dojo;
 
-import static com.volvo.scq.dojo.Calculation.PRICE;
-import static com.volvo.scq.dojo.Calculation.discountValues;
+import static com.volvo.scq.dojo.Calculator.PRICE;
+import static com.volvo.scq.dojo.Calculator.discountValues;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
@@ -11,9 +11,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CalculationTest {
+public class CalculatorTest {
 
-    private Calculation calculation;
+    private Calculator calculation;
     private Books books;
     private BigDecimal pairDiscount;
     private BigDecimal pairSize;
@@ -26,7 +26,7 @@ public class CalculationTest {
 
     @Before
     public void setUp() {
-        calculation = new Calculation();
+        calculation = new Calculator();
         books = new Books();
         calculation.setBooks(books);
 

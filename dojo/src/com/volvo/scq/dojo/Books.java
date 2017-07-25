@@ -17,7 +17,7 @@ public class Books {
         List<Integer> customerBasket = Arrays.asList(1, 2, 3, 3);
 
         Books books = new Books();
-        Calculation calculations = new Calculation();
+        Calculator calculations = new Calculator();
 
         books.addBook(customerBasket);
         books.addBooksToMap();

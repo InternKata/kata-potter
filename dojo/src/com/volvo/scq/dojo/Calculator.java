@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Calculation {
+public class Calculator {
 
     final static BigDecimal PRICE = new BigDecimal("8");
     private Books books;
@@ -13,7 +13,7 @@ public class Calculation {
     final static BigDecimal discountValues[] = { BigDecimal.ONE, new BigDecimal("0.95"), new BigDecimal("0.90"), new BigDecimal("0.80"),
             new BigDecimal("0.75") };
 
-    public Calculation() {
+    public Calculator() {
         books = new Books();
         pairs = new Pairs(books);
         triplets = new Triplets(books);
@@ -28,6 +28,27 @@ public class Calculation {
 
     public void setBooks(Books books) {
         this.books = books;
+    }
+
+    class PriceCalculatorFactory {
+
+        public PriceCalculator createCalculator(int level) {
+
+            switch (level) {
+            case 1:
+                return null;
+            case 2:
+                return null;
+            case 3:
+                return new TripletPriceCalculator();
+            case 4:
+                return null;
+            case 5:
+                return null;
+            default:
+                return null;
+            }
+        }
     }
 
     interface PriceCalculator {
@@ -46,32 +67,13 @@ public class Calculation {
 
     public BigDecimal getPrice(int level) {
 
-        PriceCalculator priceCalculator = null;
-        BigDecimal price = BigDecimal.ZERO;
+        PriceCalculatorFactory priceCalculatorFactory = new PriceCalculatorFactory();
 
         Map<Integer, Integer> booksMap = new HashMap<Integer, Integer>(books.getBooksMap());
-        switch (level) {
-        case 1:
-            price = PRICE.multiply(new BigDecimal(books.basketSize()));
-            break;
-        case 2:
-            price = calculatePairs(booksMap, books.basketSize());
-            break;
-        case 3:
-            priceCalculator.calculatePrice(booksMap, books.basketSize());
-            price = calculateTriplets(booksMap, books.basketSize());
-            break;
-        case 4:
-            price = calculateQuartets(booksMap, books.basketSize());
-            break;
-        case 5:
-            price = calculateQuintets(booksMap, books.basketSize());
-            break;
-        default:
-            price = BigDecimal.ZERO;
-        }
+        PriceCalculator priceCalculator = priceCalculatorFactory.createCalculator(level);
 
-        return price;
+        return priceCalculator.calculatePrice(booksMap, books.basketSize());
+
     }
 
     public BigDecimal calculatePairs(Map<Integer, Integer> booksMap, int basketSize) {
