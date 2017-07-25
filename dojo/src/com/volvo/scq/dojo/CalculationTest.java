@@ -73,6 +73,7 @@ public class CalculationTest {
         BigDecimal pairDiscount = discountValues[1];
         BigDecimal quartetDiscount = discountValues[3];
         BigDecimal bestPrice = BigDecimal.ZERO;
+
         bestPrice = calculation.getBestPrice();
 
         books.addBook(Arrays.asList(1, 1, 2, 2, 3, 1, 2, 3, 4, 5)); // 1234 1235 123 12
