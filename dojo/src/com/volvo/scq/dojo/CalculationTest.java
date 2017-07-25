@@ -15,45 +15,82 @@ public class CalculationTest {
 
     private Calculation calculation;
     private Books books;
+    private BigDecimal pairDiscount;
+    private BigDecimal pairSize;
+    private BigDecimal tripletDiscount;
+    private BigDecimal tripletSize;
+    private BigDecimal quartetDiscount;
+    private BigDecimal quartetSize;
+    private BigDecimal quintetDiscount;
+    private BigDecimal quintetSize;
 
     @Before
     public void setUp() {
         calculation = new Calculation();
         books = new Books();
         calculation.setBooks(books);
+
+        pairDiscount = discountValues[1];
+        tripletDiscount = discountValues[2];
+        quartetDiscount = discountValues[3];
+        quintetDiscount = discountValues[4];
+
+        pairSize = BigDecimal.valueOf(2);
+        tripletSize = BigDecimal.valueOf(3);
+        quartetSize = BigDecimal.valueOf(4);
+        quintetSize = BigDecimal.valueOf(5);
     }
 
     @Test
     public void shouldReturnZeroWhenBasketIsEmpty() {
-        assertEquals(0, books.basketSize());
+        // given
+        int basketSize = books.basketSize();
+
+        assertEquals(0, basketSize);
     }
 
     @Test
     public void shouldCalculatePriceForPairsWhenExists() {
-        books.addBook(Arrays.asList(1, 1, 2, 2, 2));
+        // given
+        List<Integer> basket = Arrays.asList(1, 1, 2, 2, 2);
+        BigDecimal numberOfPairs = BigDecimal.valueOf(2);
+        BigDecimal bestPrice = BigDecimal.ZERO;
+
+        // when
+        books.addBook(basket);
         books.addBooksToMap();
 
-        assertEquals((new BigDecimal("2").multiply(new BigDecimal("2")).multiply(PRICE).multiply(discountValues[1]).add(PRICE)), calculation.getBestPrice());
+        bestPrice = calculation.getBestPrice();
+
+        // then
+        BigDecimal pairPrice = pairSize.multiply(PRICE).multiply(pairDiscount);
+
+        assertEquals(pairPrice.multiply(numberOfPairs).add(PRICE), bestPrice);
     }
 
     @Test
     public void shouldCalculatePriceForTripletsWhenExists() {
-        books.addBook(Arrays.asList(1, 1, 2, 2, 2, 1, 2, 3));
+        // given
+        List<Integer> basket = Arrays.asList(1, 1, 2, 2, 2, 1, 2, 3);
+        BigDecimal numberOfPairs = BigDecimal.valueOf(2);
+        BigDecimal bestPrice = BigDecimal.ZERO;
+
+        // when
+        books.addBook(basket);
         books.addBooksToMap();
 
-        assertEquals(new BigDecimal("3").multiply(PRICE).multiply(discountValues[2])
-                                        .add(new BigDecimal("4").multiply(PRICE).multiply(discountValues[1]).add(PRICE)),
-                     calculation.getBestPrice());
+        bestPrice = calculation.getBestPrice();
+
+        // then
+        BigDecimal tripletPrice = tripletSize.multiply(PRICE).multiply(tripletDiscount);
+        BigDecimal pairPrice = pairSize.multiply(PRICE).multiply(pairDiscount);
+        assertEquals(tripletPrice.add(pairPrice.multiply(numberOfPairs)).add(PRICE), bestPrice);
     }
 
     @Test
     public void shouldCalculatePriceForQuartetsWhenExists() {
         // given
         List<Integer> basket = Arrays.asList(1, 1, 2, 2, 2, 1, 2, 3, 4);
-        BigDecimal quartetSize = BigDecimal.valueOf(4);
-        BigDecimal quartetDiscount = discountValues[3];
-        BigDecimal pairSize = BigDecimal.valueOf(2);
-        BigDecimal pairDiscount = discountValues[1];
         BigDecimal numberOfPairs = BigDecimal.valueOf(2);
         BigDecimal bestPrice = BigDecimal.ZERO;
 
@@ -71,17 +108,21 @@ public class CalculationTest {
 
     @Test
     public void shouldCalculatePriceForQuintetsWhenExists() {
+        // given
         BigDecimal pairDiscount = discountValues[1];
-        BigDecimal quartetDiscount = discountValues[3];
+        BigDecimal numberOfQuartets = BigDecimal.valueOf(2);
         BigDecimal bestPrice = BigDecimal.ZERO;
 
+        // when
         books.addBook(Arrays.asList(1, 1, 2, 2, 3, 1, 2, 3, 4, 5)); // 1234 1235 123 12
         books.addBooksToMap();
         bestPrice = calculation.getBestPrice();
 
-        assertEquals(new BigDecimal("2").multiply(new BigDecimal("4").multiply(PRICE)).multiply(quartetDiscount)
-                                        .add((new BigDecimal("2")).multiply(PRICE).multiply(pairDiscount)),
-                     bestPrice);
+        // then
+        BigDecimal quartetPrice = quartetSize.multiply(PRICE).multiply(quartetDiscount);
+        BigDecimal pairPrice = pairSize.multiply(PRICE).multiply(pairDiscount);
+
+        assertEquals(quartetPrice.multiply(numberOfQuartets).add(pairPrice), bestPrice);
     }
 
     @Test
