@@ -30,8 +30,23 @@ public class Calculation {
         this.books = books;
     }
 
+    interface PriceCalculator {
+        BigDecimal calculatePrice(Map<Integer, Integer> booksMap, int basketSize);
+    }
+
+    class TripletPriceCalculator implements PriceCalculator {
+
+        @Override
+        public BigDecimal calculatePrice(Map<Integer, Integer> booksMap, int basketSize) {
+            BigDecimal tripletPrice = BigDecimal.ZERO;
+            return tripletPrice;
+        }
+
+    }
+
     public BigDecimal getPrice(int level) {
 
+        PriceCalculator priceCalculator = null;
         BigDecimal price = BigDecimal.ZERO;
 
         Map<Integer, Integer> booksMap = new HashMap<Integer, Integer>(books.getBooksMap());
@@ -43,6 +58,7 @@ public class Calculation {
             price = calculatePairs(booksMap, books.basketSize());
             break;
         case 3:
+            priceCalculator.calculatePrice(booksMap, books.basketSize());
             price = calculateTriplets(booksMap, books.basketSize());
             break;
         case 4:
