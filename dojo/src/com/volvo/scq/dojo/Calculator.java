@@ -55,7 +55,7 @@ public class Calculator {
         BigDecimal calculatePrice(Map<Integer, Integer> booksMap, int basketSize);
     }
 
-    class TripletPriceCalculator implements PriceCalculator {
+    class TripletPriceCalculator extends AbstractPriceCalculator {
 
         @Override
         public BigDecimal calculatePrice(Map<Integer, Integer> booksMap, int basketSize) {
@@ -65,7 +65,44 @@ public class Calculator {
 
     }
 
+    class PairsPriceCalculator extends AbstractPriceCalculator {
+
+        @Override
+        public BigDecimal calculatePrice(Map<Integer, Integer> booksMap, int basketSize) {
+            BigDecimal tripletPrice = BigDecimal.ZERO;
+            return tripletPrice;
+        }
+
+    }
+
+    abstract class AbstractPriceCalculator implements PriceCalculator {
+
+        PriceCalculator next;
+
+        @Override
+        public BigDecimal calculatePrice(Map<Integer, Integer> booksMap, int basketSize) {
+            return next.calculatePrice(booksMap, basketSize);
+        }
+
+        // List<PriceCalculator> priceCalculators;
+
+        // @Override
+        // public BigDecimal calculatePrice(Map<Integer, Integer> booksMap, int basketSize) {
+        // Iterator<PriceCalculator> iterator = priceCalculators.iterator();
+        // while(iterator.hasNext()) {
+        // PriceCalculator calculator = iterator.next();
+        // calculator.calculatePrice(booksMap, basketSize);
+        // }
+        // return null;
+        // }
+
+    }
+
     public BigDecimal getPrice(int level) {
+
+        PriceCalculator singlePriceCalculator = new SinglePriceCalculator();
+        PriceCalculator pairsPriceCalculator = new PairsPriceCalculator();
+        singlePriceCalculator.setNext(pairsPriceCalculator);
 
         PriceCalculatorFactory priceCalculatorFactory = new PriceCalculatorFactory();
 
