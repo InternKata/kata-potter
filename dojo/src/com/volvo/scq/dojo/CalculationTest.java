@@ -70,11 +70,17 @@ public class CalculationTest {
 
     @Test
     public void shouldCalculatePriceForQuintetsWhenExists() {
+        BigDecimal pairDiscount = discountValues[1];
+        BigDecimal quartetDiscount = discountValues[3];
+        BigDecimal bestPrice = BigDecimal.ZERO;
+        bestPrice = calculation.getBestPrice();
+
         books.addBook(Arrays.asList(1, 1, 2, 2, 3, 1, 2, 3, 4, 5)); // 1234 1235 123 12
         books.addBooksToMap();
 
-        assertEquals(2 * (4 * 8) * 0.8 + 2 * 8 * 0.95, calculation.getBestPrice(), 0.0005);
-
+        assertEquals(new BigDecimal("2").multiply(new BigDecimal("4").multiply(PRICE)).multiply(quartetDiscount).add(new BigDecimal("2")).multiply(PRICE)
+                                        .multiply(pairDiscount),
+                     bestPrice);
     }
 
     @Test
